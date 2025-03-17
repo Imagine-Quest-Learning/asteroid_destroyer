@@ -9,19 +9,20 @@ public class AstroidSpawnerScript : MonoBehaviour
     public float fastestSpeed = 2f;
     public float slowestSpeed = 10f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         spawnAstroid(); 
         Debug.Log("Spawn 1st Astroid");
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
 
+    /// <summary>
+    /// Increase the asteroid speed by 1f without going over the maximum asteroid speed
+    /// </summary>
     public void increaseAstroidSpeed()
     {
         globalAstroidSpeed = globalAstroidSpeed + 1f;
@@ -34,6 +35,9 @@ public class AstroidSpawnerScript : MonoBehaviour
         Debug.Log($"New Speed: {globalAstroidSpeed}");
     }
 
+    /// <summary>
+    /// Decrease the asteroid speed by 1f without going below the minimum asteroid speed
+    /// </summary>
     public void decreaseAstroidSpeed()
     {
         globalAstroidSpeed = globalAstroidSpeed - 1f;
@@ -46,6 +50,10 @@ public class AstroidSpawnerScript : MonoBehaviour
         Debug.Log($"New Speed: {globalAstroidSpeed}");
     }
 
+    /// <summary>
+    /// Used to spawn asteroid with random starting position
+    /// Once spawned, sets the asteroid's speed
+    /// </summary>
     public void spawnAstroid()
     {
         float lowestPoint = transform.position.y - heightOffset;

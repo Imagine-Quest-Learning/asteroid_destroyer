@@ -3,15 +3,15 @@ using UnityEngine;
 public class AstroidScript : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public float deadZone = -15;
   
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
 
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Used to move the asteroid across the screen towards the shield
+    /// </summary>
     void Update()
     {
         //Time.deltaTime ensures the speed does not depend on system's frame rate
@@ -19,6 +19,10 @@ public class AstroidScript : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Set the speed of the asteroid
+    /// </summary>
+    /// <param name="speed">The asteroid's new speed</param>
     public void setSpeed(float speed)
     {
         moveSpeed = speed;

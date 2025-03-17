@@ -26,6 +26,9 @@ public class LogicManagerScript : MonoBehaviour
         astroidSpawnerScript = GameObject.FindGameObjectWithTag("AstroidSpawner").GetComponent<AstroidSpawnerScript>();
     }
 
+    /// <summary>
+    /// Decrease the shield strength by 1
+    /// </summary>
     [ContextMenu("Decrease Shield Strength")]
     public void decreaseShieldStrength(){
         shieldStrength = shieldStrength - 1;
@@ -36,18 +39,29 @@ public class LogicManagerScript : MonoBehaviour
 
 
     //FUNCTIONS FOR MULTIPLICATION QUESTIONS FOLLOW
+
+    /// <summary>
+    /// Sets up the multiplication question UI
+    /// "Attaches" current asteroid to question 
+    /// </summary>
+    /// <param name="astroid">The asteroid in current scene</param>
     public void StartMultiplicationQuestion(GameObject astroid)
-    {
+    { 
+        //asteroid that will be destroyed if question answered correctly
         currentAstroid = astroid;
         multiplicationUI.SetActive(true);
         GenerateMultiplicationQuestion();
     }
 
+    /// <summary>
+    /// Randomly generate multiplication question with numbers 1-12
+    /// Display the question on UI
+    /// </summary>
     private void GenerateMultiplicationQuestion()
     {
         //Generate a random multiplication question
-        int num1 = Random.Range(1, 10);
-        int num2 = Random.Range(1, 10);
+        int num1 = Random.Range(1, 12);
+        int num2 = Random.Range(1, 12);
         correctAns = num1 * num2;
 
         Debug.Log(num1);
@@ -58,8 +72,14 @@ public class LogicManagerScript : MonoBehaviour
         questionText.text = $"{num1} x {num2} = ";
     }
 
+    /// <summary>
+    /// Handles the user submitting answer to multiplication question
+    /// </summary>
     public void SubmitAnswer()
     {
+        //TO DO: Add handling for empty answer
+
+        //If we're waiting on the previous question's animation to finish, we exit
         if (spawnLock) return;
 
         int playerAnswer;
@@ -80,31 +100,42 @@ public class LogicManagerScript : MonoBehaviour
                 //decrease speed by 1f
                 astroidSpawnerScript.decreaseAstroidSpeed();
                 Debug.Log("Incorrect Answer, Slowing Down.");
+
+                //allow asteroid to hit shield, that collision will handle ending question
             }
         }
     }
 
+    /// <summary>
+    /// Handles ending the multiplication question if the answer was correct
+    /// </summary>
     public void EndMultiplicationQuestion()
     {
         if (spawnLock) return;
-        spawnLock = true;
+        spawnLock = true; //don't allow more asteroids to be spawned until correct answer is processed
 
-        Debug.Log("EndMultiplicationSpawn");
         multiplicationUI.SetActive(false);
         answerInput.text = "";
         answerInput.Select();
-        astroidSpawnerScript.spawnAstroid();
+        astroidSpawnerScript.spawnAstroid(); //immediately spawn next asteroid
 
         //Reset spawnlock with delay
         StartCoroutine(ResetSpawnLock());
     }
 
+    /// <summary>
+    /// Resets spawn lock with slight delay (used for better performance)
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ResetSpawnLock()
     {
         yield return new WaitForSeconds(0.1f);
         spawnLock = false;
     }
 
+    /// <summary>
+    /// Remove current asteroid from scene
+    /// </summary>
     private void DestroyAstroid()
     {
         if(currentAstroid != null)
@@ -114,6 +145,9 @@ public class LogicManagerScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// If user pressed enter, submit their answer
+    /// </summary>
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
