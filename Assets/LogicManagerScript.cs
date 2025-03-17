@@ -7,8 +7,10 @@ public class LogicManagerScript : MonoBehaviour
 {
     //References to Scripts/Objects
     public AstroidSpawnerScript astroidSpawnerScript;
+    public GameOverScript gameOverScript;
 
     //Shield Strength Variables
+    public GameObject shieldStrengthUI;
     public int shieldStrength = 5;
     public Text shieldStrengthText;
 
@@ -25,40 +27,29 @@ public class LogicManagerScript : MonoBehaviour
     {
         spawnLock = false;
         ResetInputField();
-        astroidSpawnerScript = GameObject.FindGameObjectWithTag("AstroidSpawner").GetComponent<AstroidSpawnerScript>();
     }
 
-    /// <summary>
-    /// Decrease the shield strength by 1
-    /// </summary>
+    
     [ContextMenu("Decrease Shield Strength")]
     public void DecreaseShieldStrength(){
         shieldStrength = shieldStrength - 1;
         shieldStrengthText.text = shieldStrength.ToString();
 
-        //will need to add function for gameover when shieldstrength = 0;
+        
+        if(shieldStrength < 0)
+        {
+            GameOver();
+        }
     }
 
-
-    //FUNCTIONS FOR MULTIPLICATION QUESTIONS FOLLOW
-
-    /// <summary>
-    /// Sets up the multiplication question UI
-    /// "Attaches" current asteroid to question 
-    /// </summary>
-    /// <param name="astroid">The asteroid in current scene</param>
     public void StartMultiplicationQuestion(GameObject astroid)
     { 
         //asteroid that will be destroyed if question answered correctly
         currentAstroid = astroid;
-        multiplicationUI.SetActive(true);
+        //multiplicationUI.SetActive(true);
         GenerateMultiplicationQuestion();
     }
 
-    /// <summary>
-    /// Randomly generate multiplication question with numbers 1-12
-    /// Display the question on UI
-    /// </summary>
     private void GenerateMultiplicationQuestion()
     {
         //Generate a random multiplication question
@@ -76,9 +67,6 @@ public class LogicManagerScript : MonoBehaviour
         ResetInputField();
     }
 
-    /// <summary>
-    /// Handles the user submitting answer to multiplication question
-    /// </summary>
     public void SubmitAnswer()
     {
         globalSubmit = true;
@@ -123,15 +111,12 @@ public class LogicManagerScript : MonoBehaviour
         //allow asteroid to hit shield, that collision will handle ending question
     }
 
-    /// <summary>
-    /// Handles ending the multiplication question if the answer was correct
-    /// </summary>
     public void EndMultiplicationQuestion()
     {
         if (spawnLock) return;
         spawnLock = true; //don't allow more asteroids to be spawned until correct answer is processed
 
-        multiplicationUI.SetActive(false);
+        //multiplicationUI.SetActive(false);
         answerInput.text = "";
         answerInput.Select();
         astroidSpawnerScript.spawnAstroid(); //immediately spawn next asteroid
@@ -140,10 +125,6 @@ public class LogicManagerScript : MonoBehaviour
         StartCoroutine(ResetLocks());
     }
 
-    /// <summary>
-    /// Resets spawn flag and submit flag with slight delay (used for better performance)
-    /// </summary>
-    /// <returns></returns>
     private IEnumerator ResetLocks()
     {
         yield return new WaitForSeconds(0.1f);
@@ -151,9 +132,6 @@ public class LogicManagerScript : MonoBehaviour
         globalSubmit = false;
     }
 
-    /// <summary>
-    /// Remove current asteroid from scene
-    /// </summary>
     private void DestroyAstroid()
     {
         if(currentAstroid != null)
@@ -163,10 +141,11 @@ public class LogicManagerScript : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Puts a '?' in the input box before every question
-    /// Puts the cursor on the input box before every question
-    /// </summary>
+    
+    /*
+        brief: Puts a '?' in input field before every question
+               Puts cursor on input field
+    */
     private void ResetInputField()
     {
         answerInput.placeholder.GetComponent<Text>().text = "?";
@@ -174,11 +153,19 @@ public class LogicManagerScript : MonoBehaviour
         answerInput.ActivateInputField();
     }
 
-    /// <summary>
-    /// If user pressed enter, submit their answer
-    /// </summary>
+    public void GameOver()
+    {
+        gameOverScript.Setup(); //display gameover screen
+        astroidSpawnerScript.disableSpawning = true;
+
+        //Hide other UI elements
+        multiplicationUI.SetActive(false);
+        shieldStrengthUI.SetActive(false);
+    }
+
     void Update()
     {
+        //when user presses enter, submit answer
         if (Input.GetKeyDown(KeyCode.Return))
         {
             SubmitAnswer();

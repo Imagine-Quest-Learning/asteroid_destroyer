@@ -8,6 +8,7 @@ public class AstroidSpawnerScript : MonoBehaviour
     public float globalAstroidSpeed = 5f;
     public float fastestSpeed = 2f;
     public float slowestSpeed = 10f;
+    public bool disableSpawning = false;
 
     void Start()
     {
@@ -56,19 +57,22 @@ public class AstroidSpawnerScript : MonoBehaviour
     /// </summary>
     public void spawnAstroid()
     {
-        float lowestPoint = transform.position.y - heightOffset;
-        float highestPoint = transform.position.y + heightOffset;
-
-        //Using Random.Range ensures the astroids will spawn anywhere between the lowest/highest points
-        GameObject newAstroid = Instantiate(astroid, new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
-
-        //Set speed of new astroid to be global speed
-        AstroidScript astroidScript = newAstroid.GetComponent<AstroidScript>();
-        if(astroidScript != null)
+        if (disableSpawning == false)
         {
-            astroidScript.setSpeed(globalAstroidSpeed);
-            Debug.Log($"Speed: {globalAstroidSpeed}");
+            float lowestPoint = transform.position.y - heightOffset;
+            float highestPoint = transform.position.y + heightOffset;
+
+            //Using Random.Range ensures the astroids will spawn anywhere between the lowest/highest points
+            GameObject newAstroid = Instantiate(astroid, new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), 0), transform.rotation);
+
+            //Set speed of new astroid to be global speed
+            AstroidScript astroidScript = newAstroid.GetComponent<AstroidScript>();
+            if(astroidScript != null)
+            {
+                astroidScript.setSpeed(globalAstroidSpeed);
+                Debug.Log($"Speed: {globalAstroidSpeed}");
+            }
+            Debug.Log($"Asteroid Spawned! Total asteroids in scene: {GameObject.FindGameObjectsWithTag("Astroid").Length}");
         }
-        Debug.Log($"Asteroid Spawned! Total asteroids in scene: {GameObject.FindGameObjectsWithTag("Astroid").Length}");
     }
 }
