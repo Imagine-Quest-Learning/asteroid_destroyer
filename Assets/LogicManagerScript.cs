@@ -23,6 +23,7 @@ public class LogicManagerScript : MonoBehaviour
     void Start()
     {
         spawnLock = false;
+        ResetInputField();
         astroidSpawnerScript = GameObject.FindGameObjectWithTag("AstroidSpawner").GetComponent<AstroidSpawnerScript>();
     }
 
@@ -30,7 +31,7 @@ public class LogicManagerScript : MonoBehaviour
     /// Decrease the shield strength by 1
     /// </summary>
     [ContextMenu("Decrease Shield Strength")]
-    public void decreaseShieldStrength(){
+    public void DecreaseShieldStrength(){
         shieldStrength = shieldStrength - 1;
         shieldStrengthText.text = shieldStrength.ToString();
 
@@ -70,6 +71,8 @@ public class LogicManagerScript : MonoBehaviour
 
         //Display the question
         questionText.text = $"{num1} x {num2} = ";
+
+        ResetInputField();
     }
 
     /// <summary>
@@ -143,6 +146,17 @@ public class LogicManagerScript : MonoBehaviour
             Destroy(currentAstroid);
             Debug.Log("Astroid Destroyed");
         }
+    }
+
+    /// <summary>
+    /// Puts a '?' in the input box before every question
+    /// Puts the cursor on the input box before every question
+    /// </summary>
+    private void ResetInputField()
+    {
+        answerInput.placeholder.GetComponent<Text>().text = "?";
+        answerInput.Select();
+        answerInput.ActivateInputField();
     }
 
     /// <summary>

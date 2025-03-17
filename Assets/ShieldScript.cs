@@ -40,7 +40,7 @@ public class ShieldScript : MonoBehaviour
             }
 
             Debug.Log("Shield Strength MINUS 1.");
-            logicScript.decreaseShieldStrength();
+            logicScript.DecreaseShieldStrength();
 
             Debug.Log("Destroy Astroid Hitting Shield.");
             Destroy(collision.gameObject, 0.5f); //Allow time for bounce before destroying asteroid
