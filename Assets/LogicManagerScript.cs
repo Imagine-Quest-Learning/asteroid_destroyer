@@ -16,6 +16,7 @@ public class LogicManagerScript : MonoBehaviour
     public GameObject multiplicationUI;
     public Text questionText;
     public InputField answerInput;
+    public bool globalSubmit = false;
     private GameObject currentAstroid;
     private int correctAns;
     private bool spawnLock = false;
@@ -80,7 +81,7 @@ public class LogicManagerScript : MonoBehaviour
     /// </summary>
     public void SubmitAnswer()
     {
-        //TO DO: Add handling for empty answer
+        globalSubmit = true;
 
         //If we're waiting on the previous question's animation to finish, we exit
         if (spawnLock) return;
@@ -91,22 +92,35 @@ public class LogicManagerScript : MonoBehaviour
         {
             if(playerAnswer == correctAns)
             {
-                //increase speed by 1f
-                astroidSpawnerScript.increaseAstroidSpeed();
-
-                DestroyAstroid();
-                Debug.Log("Correct Answer, Speeding Up!");
-                EndMultiplicationQuestion();
+                HandleCorrectAns();
             }
             else
             {  
-                //decrease speed by 1f
-                astroidSpawnerScript.decreaseAstroidSpeed();
-                Debug.Log("Incorrect Answer, Slowing Down.");
-
-                //allow asteroid to hit shield, that collision will handle ending question
+                HandleIncorrectAns();
             }
         }
+        else
+        {
+            Debug.Log("No answer given");
+            HandleIncorrectAns();
+        }
+    }
+
+    private void HandleCorrectAns()
+    {
+        astroidSpawnerScript.increaseAstroidSpeed();
+
+        DestroyAstroid();
+        Debug.Log("Correct Answer, Speeding Up!");
+        EndMultiplicationQuestion();
+    }
+
+    private void HandleIncorrectAns()
+    {
+        astroidSpawnerScript.decreaseAstroidSpeed();
+        Debug.Log("Incorrect Answer, Slowing Down.");
+
+        //allow asteroid to hit shield, that collision will handle ending question
     }
 
     /// <summary>
@@ -123,17 +137,18 @@ public class LogicManagerScript : MonoBehaviour
         astroidSpawnerScript.spawnAstroid(); //immediately spawn next asteroid
 
         //Reset spawnlock with delay
-        StartCoroutine(ResetSpawnLock());
+        StartCoroutine(ResetLocks());
     }
 
     /// <summary>
-    /// Resets spawn lock with slight delay (used for better performance)
+    /// Resets spawn flag and submit flag with slight delay (used for better performance)
     /// </summary>
     /// <returns></returns>
-    private IEnumerator ResetSpawnLock()
+    private IEnumerator ResetLocks()
     {
         yield return new WaitForSeconds(0.1f);
         spawnLock = false;
+        globalSubmit = false;
     }
 
     /// <summary>

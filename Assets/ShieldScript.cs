@@ -30,6 +30,13 @@ public class ShieldScript : MonoBehaviour
             {
                 astroidCollider.enabled = false;
             }
+
+            //if user didn't press enter yet, submit answer
+            if(logicScript.globalSubmit == false)
+            {
+                logicScript.SubmitAnswer();
+            }
+
             //Get rigid body of asteroid
             Rigidbody2D astroidRb = collision.gameObject.GetComponent<Rigidbody2D>();
 
