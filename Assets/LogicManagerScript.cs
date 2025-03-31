@@ -8,13 +8,16 @@ public class LogicManagerScript : MonoBehaviour
     //References to Scripts/Objects
     public AstroidSpawnerScript astroidSpawnerScript;
     public GameOverScript gameOverScript;
+    public ShieldCrackManager shieldCrackManagerScript;
 
     public GameObject explosion;
 
     //Shield Strength Variables
     public GameObject shieldStrengthUI;
+    public int maxShieldStrength = 5;
     public int shieldStrength = 5;
     public Text shieldStrengthText;
+    public Text lastHitText;
 
     //Multiplication Question Variables
     public GameObject multiplicationUI;
@@ -28,6 +31,7 @@ public class LogicManagerScript : MonoBehaviour
     void Start()
     {
         spawnLock = false;
+        maxShieldStrength = 5;
         ResetInputField();
     }
 
@@ -37,11 +41,24 @@ public class LogicManagerScript : MonoBehaviour
         shieldStrength = shieldStrength - 1;
         shieldStrengthText.text = shieldStrength.ToString();
 
+        shieldCrackManagerScript.UpdateShieldDisplay(maxShieldStrength, shieldStrength);
+
+        if(shieldStrength == 1)
+        {
+            StartCoroutine(ShowLastHitText(3f));
+        }
         
-        if(shieldStrength < 0)
+        if(shieldStrength <= 0)
         {
             GameOver();
         }
+    }
+
+    private IEnumerator ShowLastHitText(float duration)
+    {
+        lastHitText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(duration);
+        lastHitText.gameObject.SetActive(false);
     }
 
     public void StartMultiplicationQuestion(GameObject astroid)

@@ -42,6 +42,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Shield
+    uniqueID: 3415059269
+    locked: 0
+  - name: Cracks
+    uniqueID: 3684755805
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
