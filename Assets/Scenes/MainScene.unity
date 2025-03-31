@@ -206,6 +206,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1042675634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 52.031}
+--- !u!114 &56667609 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7203469028759168955, guid: 02a7d2660fba544498ee7f68bfc761e9, type: 3}
+  m_PrefabInstance: {fileID: 1778562601873375649}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &113267291
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,6 +951,7 @@ MonoBehaviour:
   lastHitText: {fileID: 1782895755}
   multiplicationUI: {fileID: 1405621683}
   questionText: {fileID: 476123422}
+  correctAnsText: {fileID: 56667609}
   answerInput: {fileID: 1057812903}
   globalSubmit: 0
 --- !u!4 &502160956
