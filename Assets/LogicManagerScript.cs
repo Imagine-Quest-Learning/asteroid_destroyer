@@ -22,6 +22,7 @@ public class LogicManagerScript : MonoBehaviour
     //Multiplication Question Variables
     public GameObject multiplicationUI;
     public Text questionText;
+    public Text correctAnsText;
     public InputField answerInput;
     public bool globalSubmit = false;
     private GameObject currentAstroid;
@@ -83,6 +84,9 @@ public class LogicManagerScript : MonoBehaviour
         //Display the question
         questionText.text = $"{num1} x {num2} = ";
 
+        //Set correct answer text (in case it is displayed later)
+        correctAnsText.text = $"{correctAns}";
+
         ResetInputField();
     }
 
@@ -124,10 +128,19 @@ public class LogicManagerScript : MonoBehaviour
 
     private void HandleIncorrectAns()
     {
+        StartCoroutine(ShowCorrectAnswerText(1f));
+
         astroidSpawnerScript.decreaseAstroidSpeed();
         Debug.Log("Incorrect Answer, Slowing Down.");
 
         //allow asteroid to hit shield, that collision will handle ending question
+    }
+
+    private IEnumerator ShowCorrectAnswerText(float duration)
+    {
+        correctAnsText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(duration);
+        correctAnsText.gameObject.SetActive(false);
     }
 
     public void EndMultiplicationQuestion()
