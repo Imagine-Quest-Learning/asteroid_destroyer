@@ -9,6 +9,8 @@ public class LogicManagerScript : MonoBehaviour
     public AstroidSpawnerScript astroidSpawnerScript;
     public GameOverScript gameOverScript;
 
+    public GameObject explosion;
+
     //Shield Strength Variables
     public GameObject shieldStrengthUI;
     public int shieldStrength = 5;
@@ -132,12 +134,21 @@ public class LogicManagerScript : MonoBehaviour
         globalSubmit = false;
     }
 
-    private void DestroyAstroid()
+    public void DestroyAstroid()
     {
+
         if(currentAstroid != null)
         {
+            // Instantiate explosion at the asteroid's position
+            GameObject newExplosion = Instantiate(explosion, currentAstroid.transform.position, Quaternion.identity);
+
+            // Destroy the explosion effect after 1 second
+            Destroy(newExplosion, 1f);
+            
+            // Destroy the asteroid
             Destroy(currentAstroid);
-            Debug.Log("Astroid Destroyed");
+            Debug.Log("Asteroid Destroyed");
+        
         }
     }
 

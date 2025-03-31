@@ -757,6 +757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   astroidSpawnerScript: {fileID: 767261843}
   gameOverScript: {fileID: 2030641139}
+  explosion: {fileID: 4677823195323097061, guid: f053a34b29111437e9e676c9e5b73480, type: 3}
   shieldStrengthUI: {fileID: 1594114175}
   shieldStrength: 5
   shieldStrengthText: {fileID: 340081349}
