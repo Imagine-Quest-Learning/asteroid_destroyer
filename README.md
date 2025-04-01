@@ -56,3 +56,6 @@ Go to **Window>General>TestRunner** to run your tests.
 If you're getting **Null Exception Errors**, this normally means you're missing a reference to something in your test script.
 
 Happy Testing!!!
+
+### Testing Documentation Reference
+https://unity.com/how-to/automated-tests-unity-test-framework
