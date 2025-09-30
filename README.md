@@ -38,9 +38,13 @@ Go back to the Test.asmdef file (Assets/Tests/...) and click it to open it in In
 
 Under Assembly Definition References add the following if not there:
 > UnityEngine.TestRunner
+>
 > UnityEditor.TestRunner
+>
 > Unity.InputSystem
+>
 > Unity.InputSystem.TestFramework
+>
 > GameLogic
 
 Where GameLogic is the name of the assembly definition file we created earlier for our game scripts. 
@@ -57,5 +61,42 @@ If you're getting **Null Exception Errors**, this normally means you're missing 
 
 Happy Testing!!!
 
-### Testing Documentation Reference
+### Testing Documentation Reference (Within Unity)
 https://unity.com/how-to/automated-tests-unity-test-framework
+
+## CI/CD Pipeline Testing
+
+### Github Action Workflow
+To setup a CI/CD pipeline you need to create a .github/workflows/ folder at the root of your project.
+Then, add a .yml file (Ex: unity_tests.yml)
+
+### Github Secret Setup
+Under **Repository Settings > Secrets** you'll need to create the following: \n
+- UNITY_EMAIL (contains your unity email)
+- UNITY_PASSWORD (contains your unity password)
+- UNITY_LICENSE (contains the contents of your .ulf file)
+
+To find your .ulf file please see https://game.ci/docs/github/activation.
+
+If you're using a **personal license** it will be here:
+```
+Windows: C:\ProgramData\Unity\Unity_lic.ulf
+Mac: /Library/Application Support/Unity/Unity_lic.ulf
+Linux: ~/.local/share/unity3d/Unity/Unity_lic.ulf
+```
+
+### Workflow File Setup
+Please see .github/workflows/unity_tests.yml for an exmaple of a workflow.
+```
+#Important Info
+
+permissions => needed to allow github to run the action
+
+the env portion is crucial for connecting Unity with Github!
+env:
+    UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+    UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+    UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+```
+
+### Example workflow runs can be found in this repo!
