@@ -447,7 +447,20 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      astroid_0: -1064938584130821537
+      astroid_1: -398538490203996858
+      astroid_10: 8178102075549589795
+      astroid_11: 5590516882730651351
+      astroid_12: -4797394334005789349
+      astroid_2: -3336442271739794095
+      astroid_3: -5277240140394229836
+      astroid_4: -8220148620563346329
+      astroid_5: -3160537756143219840
+      astroid_6: -8885177002634324341
+      astroid_7: 7879942075647772688
+      astroid_8: -2236868830969996507
+      astroid_9: 3485801115524061003
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
