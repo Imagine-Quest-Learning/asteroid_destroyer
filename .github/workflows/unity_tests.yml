@@ -16,9 +16,13 @@ jobs:
 
       # 2. Setup Unity
       - name: Setup Unity
-        uses: game-ci/unity-actions/setup@v1
+        uses: game-ci/unity-actions/setup@v4
         with:
           unityVersion: 6000.0.38f1  # replace with your Unity version
+          type: personal
+          email: ${{ secrets.UNITY_EMAIL }}
+          password: ${{ secrets.UNITY_PASSWORD }}
+
 
       # 3. Run EditMode tests via CLI
       - name: Run Unity EditMode Tests
