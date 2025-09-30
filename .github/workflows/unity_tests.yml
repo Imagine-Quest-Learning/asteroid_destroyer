@@ -16,7 +16,7 @@ jobs:
 
       # 2. Setup Unity
       - name: Setup Unity
-        uses: game-ci/unity-actions/setup@v2
+        uses: game-ci/unity-actions/setup@v1
         with:
           unityVersion: 6000.0.38f1  # replace with your Unity version
 
@@ -33,7 +33,7 @@ jobs:
 
       # 4. Upload raw test results as artifact (optional)
       - name: Upload Test Results Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Unity-Test-Results
           path: ${{ github.workspace }}/TestResults/test_results.xml
