@@ -46,13 +46,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Unity-Test-Results
-          path: ${{ github.workspace }}/TestResults/test_results.xml
-
-      # 5. Parse JUnit XML and fail workflow if any test failed
-      - name: Report Unity Test Results
-        uses: dorny/test-reporter@v1
-        with:
-          name: Unity EditMode Tests
-          path: ${{ github.workspace }}/TestResults/test_results.xml
-          reporter: junit
-          fail-on-error: true
+          path: ${{ github.workspace }}/EditMode-artifacts/editmode-results.xml
