@@ -1,0 +1,48 @@
+name: Unity EditMode Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  run-tests:
+    runs-on: macos-latest
+
+    steps:
+      # 1. Checkout your repo
+      - uses: actions/checkout@v3
+
+      # 2. Setup Unity
+      - name: Setup Unity
+        uses: game-ci/unity-actions/setup@v2
+        with:
+          unityVersion: 6000.0.38f1  # replace with your Unity version
+
+      # 3. Run EditMode tests via CLI
+      - name: Run Unity EditMode Tests
+        run: |
+          mkdir -p ${{ github.workspace }}/TestResults
+          /Applications/Unity/Hub/Editor/6000.0.38f1/Unity.app/Contents/MacOS/Unity \
+            -projectPath ${{ github.workspace }} \
+            -runTests \
+            -testPlatform EditMode \
+            -testResults ${{ github.workspace }}/TestResults/test_results.xml \
+            -quit
+
+      # 4. Upload raw test results as artifact (optional)
+      - name: Upload Test Results Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Unity-Test-Results
+          path: ${{ github.workspace }}/TestResults/test_results.xml
+
+      # 5. Parse JUnit XML and fail workflow if any test failed
+      - name: Report Unity Test Results
+        uses: dorny/test-reporter@v1
+        with:
+          name: Unity EditMode Tests
+          path: ${{ github.workspace }}/TestResults/test_results.xml
+          reporter: junit
+          fail-on-error: true
