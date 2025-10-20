@@ -81,7 +81,7 @@ To find your .ulf file please see https://game.ci/docs/github/activation.
 If you're using a **personal license** it will be here:
 ```
 Windows: C:\ProgramData\Unity\Unity_lic.ulf
-Mac: /Library/Application Support/Unity/Unity_lic.ulf
+Mac: /Library/Application\ Support/Unity/Unity_lic.ulf
 Linux: ~/.local/share/unity3d/Unity/Unity_lic.ulf
 ```
 
